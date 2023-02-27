@@ -1,7 +1,7 @@
 package pl.br;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -15,15 +15,13 @@ public class Terminals {
 
     public static void main(String[] args) {
 
-        List<String[]> commands = new ArrayList<>();
+        Commands[] commands = Commands.values();
+        List<String[]> commandsStr = Arrays.stream(commands)
+                .map(Commands::getCommand)
+                .map(command -> new String[]{"sh", "-c", command})
+                .toList();
 
-        commands.add(new String[]{"sh", "-c", Commands.FIREFOX.getCommand()});
-        commands.add(new String[]{"sh", "-c", Commands.MC.getCommand()});
-        commands.add(new String[]{"sh", "-c", Commands.FIRST_TERM.getCommand()});
-        commands.add(new String[]{"sh", "-c", Commands.SECOND_TERM.getCommand()});
-        commands.add(new String[]{"sh", "-c", Commands.THIRD_TERM.getCommand()});
-
-        executeCommand(commands);
+        executeCommand(commandsStr);
     }
 
     private static void executeCommand(List<String[]> commands) {
